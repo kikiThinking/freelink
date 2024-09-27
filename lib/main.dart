@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:freelink/route/routes.dart';
 
@@ -11,6 +13,20 @@ void main() {
       }
       return null;
     },
+    theme: ThemeData(scaffoldBackgroundColor: Colors.black),
+    home: FutureBuilder(
+        future: TokenExpire(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushNamed(context, '/Login');
+            });
+          } else {
+            return Container(color: Colors.black, child: const Center(child: CircularProgressIndicator()),);
+          }
+
+          return Container();
+        }),
     // initialRoute: '',
   ));
 }
@@ -29,4 +45,9 @@ class _Entrance extends State<Entrance> {
       body: Container(),
     );
   }
+}
+
+Future<bool> TokenExpire() async {
+  await Future.delayed(const Duration(seconds: 1));
+  return true;
 }
