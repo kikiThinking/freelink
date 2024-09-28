@@ -8,6 +8,18 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  late bool hidepasswordedit = true;
+  final TextEditingController _usernamecontrol = TextEditingController();
+  final TextEditingController _passwordcontrol = TextEditingController();
+
+  @override
+  void dispose() {
+    // 调用dispose, 防止内存泄露
+    _usernamecontrol.dispose();
+    _passwordcontrol.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +41,7 @@ class _Login extends State<Login> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      controller: _usernamecontrol,
                       style: const TextStyle(fontFamily: 'cascadiacode', color: Colors.white),
                       decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: const BorderSide(color: Color(0xff3f3f3f), width: 3)), hintText: 'name@example.com', hintStyle: const TextStyle(color: Colors.white, fontFamily: 'cascadiacode'), contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10)),
                       textAlign: TextAlign.start,
@@ -38,8 +51,30 @@ class _Login extends State<Login> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      controller: _passwordcontrol,
                       style: const TextStyle(fontFamily: 'cascadiacode', color: Colors.white),
-                      decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: const BorderSide(color: Color(0xff3f3f3f), width: 3)), hintText: 'name@example.com', hintStyle: const TextStyle(color: Colors.white, fontFamily: 'cascadiacode'), contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10)),
+                      obscureText: hidepasswordedit,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: const BorderSide(color: Color(0xff3f3f3f), width: 3)),
+                          // hintText: 'name@example.com',
+                          hintStyle: const TextStyle(color: Colors.white, fontFamily: 'cascadiacode'),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+                          suffixIcon: GestureDetector(
+                            onTapDown: (TapDownDetails details) {
+                              setState(() {
+                                hidepasswordedit = false;
+                              });
+                            },
+                            onTapUp: (TapUpDetails details) {
+                              setState(() {
+                                hidepasswordedit = true;
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Icon(Icons.visibility_rounded, color: hidepasswordedit ? const Color(0xff3f3f3f) : Colors.white),
+                            ),
+                          )),
                       textAlign: TextAlign.start,
                       cursorColor: Colors.deepOrangeAccent,
                     ),
