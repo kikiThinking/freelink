@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.2
   provider: ^6.1.2
+  shared_preferences: ^2.3.2
+  expandable_menu: ^0.0.5
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +86,12 @@ flutter:
    - family: Roboto
      fonts:
       - asset: fonts/Roboto-Regular.ttf
+
+   - family: contact
+     fonts:
+       - asset: fonts/contact.ttf
+
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

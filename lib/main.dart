@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:freelink/provider/token.dart';
 import 'package:freelink/route/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -17,9 +18,9 @@ void main() {
         }
         return null;
       },
-      theme: ThemeData(scaffoldBackgroundColor: Colors.black),
+      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       home: FutureBuilder(
-          future: TokenExpire(),
+          future: tokenExpire(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.data?.usertoken != '' && snapshot.data?.refreshtoken != '') {
@@ -35,7 +36,6 @@ void main() {
                 child: const Center(child: CircularProgressIndicator()),
               );
             }
-
             return Container();
           }),
       // initialRoute: '',
@@ -59,7 +59,11 @@ class _Entrance extends State<Entrance> {
   }
 }
 
-Future<Token> TokenExpire() async {
-  await Future.delayed(const Duration(seconds: 1));
-  return Token(usertoken: '', refreshtoken: '');
+Future<Token> tokenExpire() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? refrechtoken = prefs.getString("refrechtoken");
+  String? usertoken = prefs.getString("usertoken");
+  refrechtoken ??= "";
+  usertoken ??= "";
+  return Token(usertoken: usertoken, refreshtoken: refrechtoken);
 }
